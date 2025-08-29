@@ -1,9 +1,6 @@
-// src/firebase.js
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
-import { getAnalytics } from "firebase/analytics";
+import { getFirestore, serverTimestamp } from "firebase/firestore";
 
-// Firebase Config (senin verdiğin bilgiler)
 const firebaseConfig = {
   apiKey: "AIzaSyAu7rtsZaqnfnruUug90t9C9U0fzrZnR6c",
   authDomain: "incir-ceviz-app.firebaseapp.com",
@@ -14,11 +11,6 @@ const firebaseConfig = {
   measurementId: "G-78W682XW3N"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
-// Firestore
 export const db = getFirestore(app);
-
-// (Opsiyonel) Analytics
-export const analytics = getAnalytics(app);
+export { serverTimestamp };

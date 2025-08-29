@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { db } from "./firebase";
 
-const ADMIN_PASSWORD = "1234"; // Kendi şifreni buraya yaz
+const ADMIN_PASSWORD = "1234";
 
-function AdminPage() {
+export default function AdminPage() {
   const [orders, setOrders] = useState([]);
   const [password, setPassword] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
@@ -15,43 +15,25 @@ function AdminPage() {
     if (password === ADMIN_PASSWORD) {
       setAuthenticated(true);
       setError("");
-    } else {
-      setError("❌ Şifre yanlış!");
-    }
+    } else setError("❌ Şifre yanlış!");
   };
 
   useEffect(() => {
     if (!authenticated) return;
-
     const q = query(collection(db, "orders"), orderBy("createdAt", "desc"));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
+    const unsubscribe = onSnapshot(q, snapshot => {
       setOrders(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
     });
-
     return () => unsubscribe();
   }, [authenticated]);
 
   if (!authenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <form
-          onSubmit={handleLogin}
-          className="bg-white p-8 rounded-xl shadow-lg w-full max-w-sm text-center"
-        >
+        <form onSubmit={handleLogin} className="bg-white p-8 rounded-xl shadow-lg w-full max-w-sm text-center">
           <h1 className="text-2xl font-bold mb-4">Admin Girişi</h1>
-          <input
-            type="password"
-            placeholder="Şifre"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full border p-2 rounded-lg mb-4"
-          />
-          <button
-            type="submit"
-            className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700"
-          >
-            Giriş Yap
-          </button>
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Şifre" className="w-full border p-2 rounded-lg mb-4"/>
+          <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Giriş Yap</button>
           {error && <p className="text-red-600 mt-2">{error}</p>}
         </form>
       </div>
@@ -69,14 +51,10 @@ function AdminPage() {
             <p><b>🛒 Ürün:</b> {order.product}</p>
             <p><b>⚖️ Kilo:</b> {order.kg} kg</p>
             <p><b>💰 Fiyat:</b> {order.totalPrice} TL</p>
-            <p className="text-sm text-gray-500">
-              📅 {order.createdAt?.toDate?.().toLocaleString() || "Tarih yok"}
-            </p>
+            <p className="text-sm text-gray-500">📅 {order.createdAt?.toDate?.()?.toLocaleString() || "Tarih yok"}</p>
           </div>
         ))}
       </div>
     </div>
   );
 }
-
-export default AdminPage;
