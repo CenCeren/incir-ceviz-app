@@ -1,0 +1,11 @@
+/* src/index.css */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0fdf4; /* açık yeşil arka plan */
+  }
+  
+  input, select, button {
+    font-family: inherit;
+  }
+  
