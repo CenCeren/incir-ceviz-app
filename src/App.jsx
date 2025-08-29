@@ -1,15 +1,14 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import OrderForm from "./OrderForm";
-import AdminPage from "./AdminPage";
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import OrderForm from "./OrderForm.jsx";
+import AdminPage from "./AdminPage.jsx";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<OrderForm />} />
-        <Route path="/admin" element={<AdminPage />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<OrderForm />} />
+      <Route path="/admin" element={<AdminPage />} />
+    </Routes>
   );
 }
 
